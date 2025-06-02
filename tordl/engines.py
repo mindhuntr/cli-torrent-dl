@@ -19,15 +19,16 @@ class TpbParty(BaseDl):
         try:
             trs = bs.find('table', id='searchResult').findAll('tr')[1:]
             for tr in trs:
-                a = tr.find(class_='detName').find('a')
+                a = tr.findAll('a')[1]
                 name = a.text
                 link = '/%s' % '/'.join(a.attrs['href'].split('/')[3:])
                 tds = tr.findAll('td')
-                magnet_url = tds[1].findAll('a')[1].attrs['href']
-                seeders = tds[2].text
-                leeches = tds[3].text
-                size = tr.find(class_='detDesc').text.split(',')[1]
-                size = size.replace('Size ', '').replace('i', '')
+                magnet_url = tds[3].find('a').attrs['href']
+
+                seeders = tds[5].text
+                leeches = tds[6].text
+                size = tds[4].text
+                size = size.replace('i', '')
                 result.append(
                     SearchResult(
                         self,
